@@ -3,14 +3,13 @@ package br.com.carstore.api;
 import br.com.carstore.dto.LoginRequest;
 import br.com.carstore.service.JwtTokenService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -23,6 +22,14 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.jwtTokenService = jwtTokenService;
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin/stats")
+    public ResponseEntity<?> stats() { return ResponseEntity.ok().build(); }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/admin/create")
+    public ResponseEntity<?> create() { return ResponseEntity.ok().build(); }
 
     @PostMapping("/login")
     public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginRequest) {

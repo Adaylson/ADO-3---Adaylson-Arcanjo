@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -17,7 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
 
@@ -96,21 +97,21 @@ public class SecurityConfig {
     }
 
     // Este método deve ser adicionado DENTRO da classe SecurityConfig
-    @Bean
-    public org.springframework.security.core.userdetails.UserDetailsService users(PasswordEncoder passwordEncoder) {
-
-        // Detalhes do usuário de teste
-        org.springframework.security.core.userdetails.UserDetails user =
-                org.springframework.security.core.userdetails.User.builder()
-                        .username("admin")
-                        // A senha 'admin' será codificada pelo BCryptPasswordEncoder
-                        .password(passwordEncoder.encode("admin"))
-                        .roles("USER", "ADMIN") // Roles para uso futuro em autorização
-                        .build();
-
-        // Gerenciador em memória (apenas para testes)
-        return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
-
-    }
+//    @Bean
+//    public org.springframework.security.core.userdetails.UserDetailsService users(PasswordEncoder passwordEncoder) {
+//
+//        // Detalhes do usuário de teste
+//        org.springframework.security.core.userdetails.UserDetails user =
+//                org.springframework.security.core.userdetails.User.builder()
+//                        .username("admin")
+//                        // A senha 'admin' será codificada pelo BCryptPasswordEncoder
+//                        .password(passwordEncoder.encode("admin"))
+//                        .roles("USER", "ADMIN") // Roles para uso futuro em autorização
+//                        .build();
+//
+//        // Gerenciador em memória (apenas para testes)
+//        return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
+//
+//    }
 
 }

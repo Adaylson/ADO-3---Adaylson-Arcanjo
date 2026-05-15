@@ -1,5 +1,6 @@
 package br.com.carstore.dto;
 
+import br.com.carstore.model.Car;
 import jakarta.validation.constraints.NotBlank;
 
 public class CarDTO {
@@ -26,6 +27,14 @@ public class CarDTO {
 
     private String id;
 
+    public CarDTO(){}
+
+    public CarDTO(String marca, String modelo, String cor, String nome) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.cor = cor;
+        this.nome = nome;
+    }
 
     public String getNome() {
         return nome;
